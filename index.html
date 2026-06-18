@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adithya Abhiram | Backend Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --text-dark: #f9fafb;
+            --text-dark-secondary: #9ca3af;
+            --text-light: #374151;
+            --text-light-secondary: #6b7280;
+            --bg-dark: #0f172a;
+            --bg-dark-card: #1e293b;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --border-light: #e5e7eb;
+            --border-dark: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--primary-hover);
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* High-End Dark Header & Hero */
+        header {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-dark);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 18px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text-dark-secondary);
+            font-size: 0.9rem;
+            font-weight: 400;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-dark);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .hamburger span {
+            height: 2px;
+            width: 24px;
+            background: var(--text-dark);
+            border-radius: 2px;
+        }
+
+        .hero {
+            background: var(--bg-dark);
+            padding: 100px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Subtle high-end gradient effect */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.08) 0%, rgba(15, 23, 42, 0) 60%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-dark);
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-dark-secondary);
+            max-width: 650px;
+            margin-bottom: 35px;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary-dark {
+            background: var(--white);
+            color: var(--bg-dark);
+        }
+
+        .btn-primary-dark:hover {
+            background: #e2e8f0;
+            text-decoration: none;
+            color: var(--bg-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-dark {
+            border: 1px solid var(--border-dark);
+            color: var(--text-dark);
+            background: transparent;
+        }
+
+        .btn-outline-dark:hover {
+            background: rgba(255,255,255,0.05);
+            border-color: var(--text-dark-secondary);
+            text-decoration: none;
+            color: var(--text-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 60px 0;
+        }
+
+        section {
+            margin-bottom: 70px;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-light);
+        }
+
+        /* Skills */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .skill-category h4 {
+            font-size: 0.8rem;
+            color: var(--text-light-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tag {
+            background: var(--white);
+            border: 1px solid var(--border-light);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        /* Projects */
+        .project-card {
+            background: var(--white);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transform: translateY(-3px);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+
+        .project-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-light);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .project-desc {
+            color: var(--text-light-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .tech-tag {
+            font-size: 0.8rem;
+            color: var(--primary);
+            background: #eff6ff;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .github-cta {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            border: 2px dashed var(--border-light);
+            border-radius: 12px;
+        }
+
+        .github-cta a {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .contact-card {
+            background: var(--white);
+            border: 1px solid var(--border-light);
+            padding: 25px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .contact-icon {
+            width: 48px;
+            height: 48px;
+            background: #eff6ff;
+            color: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .contact-info h4 {
+            font-size: 0.8rem;
+            color: var(--text-light-secondary);
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .contact-info p, .contact-info a {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .contact-info a:hover {
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-dark);
+            text-align: center;
+            padding: 30px 20px;
+            color: var(--text-dark-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(15, 23, 42, 0.98);
+                padding: 20px;
+                border-bottom: 1px solid var(--border-dark);
+                gap: 20px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .project-header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">Adithya Abhiram Chittimalla</div>
+            <nav class="nav-links" id="navLinks">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
+            <button class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- High-End Hero Section -->
+    <section class="hero" id="about">
+        <div class="container hero-content">
+            <div class="hero-tag">Open to Opportunities</div>
+            <h1>Engineering Software<br> for Scale and Performance.</h1>
+            <p class="hero-subtitle">
+                B.Tech Computer Science student with a strong grasp of system architecture and problem-solving. I focus on building robust applications, handling everything from database design and API integrations to asynchronous processing—to solve complex technical challenges efficiently.
+            </p>
+            <div class="hero-buttons">
+                <a href="https://github.com/adithyaabhiram-28" target="_blank" class="btn btn-primary-dark">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    View GitHub Profile
+                </a>
+                <a href="23B81A0568_Adithya_Abhiram_Ch.pdf" class="btn btn-outline-dark">Resume</a>
+                <a href="#contact" class="btn btn-outline-dark">Get In Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="container main-content">
+
+        <!-- Skills -->
+        <section id="skills">
+            <h3>Technical Arsenal</h3>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h4>Languages</h4>
+                    <div class="skill-tags">
+                        <span class="tag">C++</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">SQL</span>
+                        <span class="tag">Java</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Backend & Architecture</h4>
+                    <div class="skill-tags">
+                        <span class="tag">Flask</span>
+                        <span class="tag">REST APIs</span>
+                        <span class="tag">MVC</span>
+                        <span class="tag">JWT Auth</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Databases & Caching</h4>
+                    <div class="skill-tags">
+                        <span class="tag">PostgreSQL</span>
+                        <span class="tag">Redis</span>
+                        <span class="tag">SQLite</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Tools & DevOps</h4>
+                    <div class="skill-tags">
+                        <span class="tag">Docker</span>
+                        <span class="tag">Git/GitHub</span>
+                        <span class="tag">Pytest</span>
+                        <span class="tag">Linux</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects -->
+        <section id="projects">
+            <h3>Featured Projects</h3>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <span class="project-title">AbyFlow - Async SaaS Billing API</span>
+                    <div class="project-links">
+                        <a href="https://github.com/adithyaabhiram-28/AbyFlow" target="_blank">Code</a>
+                    </div>
+                </div>
+                <p class="project-desc">
+                    An event-driven billing API integrating Stripe Checkout. Designed a non-blocking webhook system 
+                    using Celery and Redis to process payments asynchronously, preventing API timeouts and duplicate 
+                    database writes. Containerized with Docker Compose.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Flask</span>
+                    <span class="tech-tag">Celery</span>
+                    <span class="tech-tag">Redis</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">Stripe</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <span class="project-title">AbyVest - Real-Time Portfolio Tracker</span>
+                    <div class="project-links">
+                        <a href="https://github.com/adithyaabhiram-28/AbyVest" target="_blank">Code</a>
+                    </div>
+                </div>
+                <p class="project-desc">
+                    A stock portfolio aggregator implementing a Redis caching layer (60s TTL for quotes, 24h for profiles) 
+                    to reduce external API calls and prevent rate-limiting. Features a service-layer architecture to 
+                    decouple API logic from route handlers.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Flask</span>
+                    <span class="tech-tag">Cloudinary</span>
+                    <span class="tech-tag">Redis</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">Finnhub API</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <span class="project-title">AbyNest - Modular Web Architecture</span>
+                    <div class="project-links">
+                        <a href="https://github.com/adithyaabhiram-28/AbyNest" target="_blank">Code</a>
+                    </div>
+                </div>
+                <p class="project-desc">
+                    A server-rendered application built to master scalable Flask architecture. Utilizes the App Factory 
+                    pattern and Blueprints for strict MVC separation, RBAC for data isolation, and Cloudinary for file storage.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">Python</span>
+                    <span class="tech-tag">Flask</span>
+                    <span class="tech-tag">SQLAlchemy</span>
+                    <span class="tech-tag">Cloudinary</span>
+                </div>
+            </div>
+
+            <div class="github-cta">
+                Want to see more? Check out my experiments on <a href="https://github.com/adithyaabhiram-28" target="_blank">GitHub →</a>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact">
+            <h3>Let's Connect</h3>
+            <div class="contact-grid">
+                <a href="mailto:adithya.abhiram.2805@gmail.com" class="contact-card" style="text-decoration: none;">
+                    <div class="contact-icon">✉</div>
+                    <div class="contact-info">
+                        <h4>Email</h4>
+                        <p>adithya.abhiram.2805@gmail.com</p>
+                    </div>
+                </a>
+                <a href="tel:+919704962959" class="contact-card" style="text-decoration: none;">
+                    <div class="contact-icon">☎</div>
+                    <div class="contact-info">
+                        <h4>Phone</h4>
+                        <p>+91 97049 62959</p>
+                    </div>
+                </a>
+                <a href="https://linkedin.com/in/adithya-abhiram-chittimalla" target="_blank" class="contact-card" style="text-decoration: none;">
+                    <div class="contact-icon">in</div>
+                    <div class="contact-info">
+                        <h4>LinkedIn</h4>
+                        <p>Adithya Abhiram Chittimalla</p>
+                    </div>
+                </a>
+                <a href="https://leetcode.com/adithya_abhiram_2805/" target="_blank" class="contact-card" style="text-decoration: none;">
+                    <div class="contact-icon">⚙</div>
+                    <div class="contact-info">
+                        <h4>LeetCode</h4>
+                        <p>400+ Problems Solved</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        &copy; Adithya Abhiram Chittimalla.
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
