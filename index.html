@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="Adithya Abhiram Chittimalla, final-year B.Tech CSE student and backend engineer. Python, Flask, PostgreSQL, Celery, Redis, Docker and AWS.">
+    <meta name="theme-color" content="#0f172a">
     <title>Adithya Abhiram | Backend Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -24,7 +27,11 @@
 
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-        html { scroll-behavior: smooth; }
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 76px; /* keeps anchored sections clear of the sticky header */
+            -webkit-text-size-adjust: 100%;
+        }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -56,7 +63,7 @@
         .header-content {
             max-width: 1040px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left));
             height: 60px;
             display: flex;
             justify-content: space-between;
@@ -237,7 +244,7 @@
         .container {
             max-width: 1040px;
             margin: 0 auto;
-            padding: 0 24px;
+            padding: 0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left));
         }
 
         .main-content { padding: 56px 0; }
@@ -263,8 +270,15 @@
         /* ─── SKILLS ─── */
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 20px;
+        }
+
+        .skill-category {
+            background: var(--white);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 22px;
         }
 
         .skill-category h4 {
@@ -477,11 +491,12 @@
             font-weight: 500;
             margin-bottom: 3px;
         }
+        .contact-info { min-width: 0; }
         .contact-info p {
             font-size: 0.875rem;
             color: var(--text-light);
             font-weight: 500;
-            word-break: break-all;
+            overflow-wrap: anywhere;
         }
 
         /* ─── FOOTER ─── */
@@ -501,7 +516,7 @@
             .hamburger { display: flex; }
 
             .skills-grid {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                grid-template-columns: repeat(2, 1fr);
                 gap: 16px;
             }
         }
@@ -524,9 +539,11 @@
             .btn { padding: 10px 18px; font-size: 0.82rem; }
 
             .skills-grid {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
                 gap: 14px;
             }
+
+            .skill-category { padding: 18px; }
 
             .project-card { padding: 20px; }
 
@@ -538,31 +555,41 @@
 
             .contact-grid { grid-template-columns: 1fr; }
 
-            .contact-info p { word-break: break-word; font-size: 0.82rem; }
+            .contact-info p { font-size: 0.82rem; }
         }
 
         /* Very small screens */
         @media (max-width: 360px) {
-            .skills-grid { grid-template-columns: 1fr; }
             h1 { font-size: 1.8rem; }
+            .logo { font-size: 0.92rem; }
+            .btn { padding: 10px 14px; }
+        }
+
+        /* Respect reduced-motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
         }
     </style>
 </head>
 <body>
 
     <!-- Mobile drawer -->
-    <div class="mobile-drawer" id="mobileDrawer">
+    <nav class="mobile-drawer" id="mobileDrawer" aria-label="Mobile navigation">
         <a href="#about"          onclick="closeDrawer()">About</a>
         <a href="#skills"         onclick="closeDrawer()">Skills</a>
         <a href="#projects"       onclick="closeDrawer()">Projects</a>
         <a href="#certifications" onclick="closeDrawer()">Certifications</a>
         <a href="#contact"        onclick="closeDrawer()">Contact</a>
-    </div>
+    </nav>
 
     <header>
         <div class="header-content">
             <div class="logo">Adithya Abhiram Chittimalla</div>
-            <nav>
+            <nav aria-label="Main navigation">
                 <ul class="nav-links">
                     <li><a href="#about">About</a></li>
                     <li><a href="#skills">Skills</a></li>
@@ -571,7 +598,7 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
-            <button class="hamburger" id="hamburger" onclick="toggleDrawer()" aria-label="Toggle menu">
+            <button class="hamburger" id="hamburger" onclick="toggleDrawer()" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileDrawer">
                 <span></span><span></span><span></span>
             </button>
         </div>
@@ -586,55 +613,73 @@
             </div>
             <h1>Engineering Software<br>for Scale and Performance.</h1>
             <p class="hero-subtitle">
-                Final-year B.Tech Computer Science student at CVR College of Engineering. I build and deploy production backend systems in Python and Flask — two live services running on a single AWS EC2 instance behind Nginx, with isolated internal ports for app, database, and cache layers. AWS-certified in Cloud Operations and Cloud Foundations.
+                Final-year B.Tech Computer Science student at CVR College of Engineering. I build backend services, then try to break them with duplicate requests, crashed workers and concurrent writes, and keep a fix only when a test proves it works. Two live services run on a single AWS EC2 instance behind Nginx, with isolated internal ports for app, database, and cache layers. AWS-certified in Cloud Operations and Cloud Foundations.
             </p>
             <div class="hero-buttons">
-                <a href="https://github.com/adithyaabhiram-28" target="_blank" class="btn btn-primary-dark">
+                <a href="https://github.com/adithyaabhiram-28" target="_blank" rel="noopener noreferrer" class="btn btn-primary-dark">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                     GitHub
                 </a>
-                <a href="Adithya_Abhiram_Ch.pdf" target="_blank" class="btn btn-outline-dark">Resume</a>
+                <a href="Adithya_Abhiram_Ch.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark">Resume</a>
                 <a href="#contact" class="btn btn-outline-dark">Get In Touch</a>
             </div>
         </div>
     </section>
 
-    <div class="container main-content">
+    <main class="container main-content">
 
         <!-- SKILLS -->
         <section id="skills">
             <h3>Technical Arsenal</h3>
             <div class="skills-grid">
                 <div class="skill-category">
-                    <h4>Languages</h4>
+                    <h4>Languages &amp; Web</h4>
                     <div class="skill-tags">
                         <span class="tag">C++</span>
                         <span class="tag">Python</span>
                         <span class="tag">C</span>
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
                     </div>
                 </div>
                 <div class="skill-category">
-                    <h4>Backend & Architecture</h4>
+                    <h4>Backend &amp; Architecture</h4>
                     <div class="skill-tags">
                         <span class="tag">Flask</span>
                         <span class="tag">REST APIs</span>
+                        <span class="tag">Celery</span>
                         <span class="tag">MVC</span>
                         <span class="tag">JWT Auth</span>
-                        <span class="tag">Microservice Patterns</span>
+                        <span class="tag">Stripe Webhooks</span>
+                        <span class="tag">Alembic</span>
+                        <span class="tag">Multi-Tenancy</span>
                     </div>
                 </div>
                 <div class="skill-category">
-                    <h4>Databases & Caching</h4>
+                    <h4>Databases &amp; Caching</h4>
                     <div class="skill-tags">
                         <span class="tag">PostgreSQL</span>
+                        <span class="tag">pgvector</span>
                         <span class="tag">Redis</span>
                         <span class="tag">SQLite</span>
                     </div>
                 </div>
                 <div class="skill-category">
-                    <h4>Tools & DevOps</h4>
+                    <h4>AI</h4>
                     <div class="skill-tags">
+                        <span class="tag">Gemini API</span>
+                        <span class="tag">RAG</span>
+                        <span class="tag">Embeddings</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>Cloud &amp; DevOps</h4>
+                    <div class="skill-tags">
+                        <span class="tag">AWS EC2</span>
+                        <span class="tag">AWS S3</span>
+                        <span class="tag">AWS RDS</span>
                         <span class="tag">Docker</span>
+                        <span class="tag">Docker Compose</span>
                         <span class="tag">Nginx</span>
                         <span class="tag">Git / GitHub</span>
                         <span class="tag">Pytest</span>
@@ -642,18 +687,13 @@
                     </div>
                 </div>
                 <div class="skill-category">
-                    <h4>Cloud · AWS ☁</h4>
+                    <h4>CS Fundamentals</h4>
                     <div class="skill-tags">
-                        <span class="tag">EC2</span>
-                        <span class="tag">S3</span>
-                        <span class="tag">RDS</span>
-                    </div>
-                </div>
-                <div class="skill-category">
-                    <h4>Web</h4>
-                    <div class="skill-tags">
-                        <span class="tag">HTML</span>
-                        <span class="tag">CSS</span>
+                        <span class="tag">DSA</span>
+                        <span class="tag">Operating Systems</span>
+                        <span class="tag">Computer Architecture</span>
+                        <span class="tag">OOP</span>
+                        <span class="tag">Database Systems</span>
                     </div>
                 </div>
             </div>
@@ -667,16 +707,16 @@
             <div class="project-card">
                 <div class="project-header">
                     <div class="project-title-row">
-                        <span class="project-title">AbyFlow — Async SaaS Billing API</span>
+                        <span class="project-title">AbyFlow — Multi-Tenant SaaS Billing &amp; AI Platform</span>
                         <span class="live-badge">Live</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://65.2.63.202/abyflow/" target="_blank">Live ↗</a>
-                        <a href="https://github.com/adithyaabhiram-28/AbyFlow" target="_blank">Code ↗</a>
+                        <a href="https://65.2.63.202/abyflow/" target="_blank" rel="noopener noreferrer">Live ↗</a>
+                        <a href="https://github.com/adithyaabhiram-28/AbyFlow" target="_blank" rel="noopener noreferrer">Code ↗</a>
                     </div>
                 </div>
                 <p class="project-desc">
-                    An event-driven billing API integrating Stripe Checkout. Designed a non-blocking webhook system using Celery and Redis to process payments asynchronously, preventing API timeouts and duplicate database writes. <strong>Deployed to AWS EC2 behind an Nginx reverse proxy with HTTPS</strong> — running alongside AbyVest on a single t3.small instance, with isolated internal ports for the app, database, and cache layers.
+                    A multi-tenant billing backend where each workspace manages its own customers, invoices and role-based access (platform and workspace roles), with tenant isolation enforced in queries and vector retrieval. Stripe webhooks are saved safely before replying 200 OK, using PostgreSQL row locking (SKIP LOCKED) and lease tokens so background Celery workers never overwrite each other, with automatic retries and a manual replay tool for failed events. A Gemini-powered billing assistant uses embeddings and pgvector, tracks token usage and cost per request, and is read-only: it can view billing data but never change or calculate it. Covered by 285 automated tests, including PostgreSQL integration tests for locking and concurrency. <strong>Deployed to AWS EC2 behind an Nginx reverse proxy with HTTPS</strong> — running alongside AbyVest on a single t3.small instance, with isolated internal ports for the app, database, and cache layers.
                 </p>
                 <div class="project-tech">
                     <span class="tech-tag">Python</span>
@@ -684,7 +724,9 @@
                     <span class="tech-tag">Celery</span>
                     <span class="tech-tag">Redis</span>
                     <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">pgvector</span>
                     <span class="tech-tag">Stripe</span>
+                    <span class="tech-tag">Gemini API</span>
                     <span class="tech-tag">Docker</span>
                     <span class="tech-tag">Nginx</span>
                     <span class="tech-tag">AWS EC2</span>
@@ -699,12 +741,12 @@
                         <span class="live-badge">Live</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://65.2.63.202/abyvest/" target="_blank">Live ↗</a>
-                        <a href="https://github.com/adithyaabhiram-28/AbyVest" target="_blank">Code ↗</a>
+                        <a href="https://65.2.63.202/abyvest/" target="_blank" rel="noopener noreferrer">Live ↗</a>
+                        <a href="https://github.com/adithyaabhiram-28/AbyVest" target="_blank" rel="noopener noreferrer">Code ↗</a>
                     </div>
                 </div>
                 <p class="project-desc">
-                    A real-time stock portfolio tracker implementing a tiered Redis caching layer (60s TTL for live quotes, 24h for company profiles) to reduce external API calls and prevent rate-limiting. Features a service-layer architecture decoupling external API logic from route handlers. <strong>Deployed to the same AWS EC2 host as AbyFlow</strong> via Nginx path-based routing, with PostgreSQL and Redis isolated on internal-only ports.
+                    A real-time stock portfolio tracker powered by Finnhub and Gemini APIs, with tiered Redis caching (60s TTL for live quotes, 24h for company profiles) to cut external API calls and avoid rate limits. External API logic is separated from route handlers into a service layer, and a context-injection system formats each user's PostgreSQL portfolio data into structured prompts for AI analysis. <strong>Deployed to the same AWS EC2 host as AbyFlow</strong> via Nginx path-based routing, with PostgreSQL and Redis isolated on internal-only ports.
                 </p>
                 <div class="project-tech">
                     <span class="tech-tag">Python</span>
@@ -712,6 +754,7 @@
                     <span class="tech-tag">Redis</span>
                     <span class="tech-tag">PostgreSQL</span>
                     <span class="tech-tag">Finnhub API</span>
+                    <span class="tech-tag">Gemini API</span>
                     <span class="tech-tag">Nginx</span>
                     <span class="tech-tag">AWS EC2</span>
                 </div>
@@ -724,11 +767,11 @@
                         <span class="project-title">AbyNest — Modular Web Architecture</span>
                     </div>
                     <div class="project-links">
-                        <a href="https://github.com/adithyaabhiram-28/AbyNest" target="_blank">Code ↗</a>
+                        <a href="https://github.com/adithyaabhiram-28/AbyNest" target="_blank" rel="noopener noreferrer">Code ↗</a>
                     </div>
                 </div>
                 <p class="project-desc">
-                    A server-rendered application built to master scalable Flask architecture. Utilizes the App Factory pattern and Blueprints for strict MVC separation, RBAC for data isolation, and Cloudinary for file storage.
+                    A server-rendered application built to master scalable Flask architecture. Uses the App Factory pattern and Blueprints to keep routing, business logic and views cleanly separated, RBAC so users can only modify their own data, Cloudinary for image uploads, and server-side form validation with WTForms.
                 </p>
                 <div class="project-tech">
                     <span class="tech-tag">Python</span>
@@ -739,7 +782,7 @@
             </div>
 
             <div class="github-cta">
-                Want to see more? Check out my experiments on <a href="https://github.com/adithyaabhiram-28" target="_blank">GitHub →</a>
+                Want to see more? Check out my experiments on <a href="https://github.com/adithyaabhiram-28" target="_blank" rel="noopener noreferrer">GitHub →</a>
             </div>
         </section>
 
@@ -752,7 +795,7 @@
                     <div class="cert-info">
                         <h4>AWS Academy Graduate — Cloud Operations</h4>
                         <p>Amazon Web Services · AWS Academy · 2026</p>
-                        <a href="https://www.credly.com/badges/9e2d9c39-8d21-4439-857a-1d422c258ad5/public_url" target="_blank" class="cert-verify">Verify on Credly ↗</a>
+                        <a href="https://www.credly.com/badges/9e2d9c39-8d21-4439-857a-1d422c258ad5/public_url" target="_blank" rel="noopener noreferrer" class="cert-verify">Verify on Credly ↗</a>
                     </div>
                 </div>
                 <div class="cert-card">
@@ -760,7 +803,7 @@
                     <div class="cert-info">
                         <h4>AWS Academy Graduate — Cloud Foundations</h4>
                         <p>Amazon Web Services · AWS Academy · 2026</p>
-                        <a href="https://www.credly.com/badges/85fec160-6510-46e8-b817-4b82df77c16d/public_url" target="_blank" class="cert-verify">Verify on Credly ↗</a>
+                        <a href="https://www.credly.com/badges/85fec160-6510-46e8-b817-4b82df77c16d/public_url" target="_blank" rel="noopener noreferrer" class="cert-verify">Verify on Credly ↗</a>
                     </div>
                 </div>
             </div>
@@ -784,14 +827,14 @@
                         <p>+91 97049 62959</p>
                     </div>
                 </a>
-                <a href="https://linkedin.com/in/adithya-abhiram-chittimalla" target="_blank" class="contact-card">
+                <a href="https://linkedin.com/in/adithya-abhiram-chittimalla" target="_blank" rel="noopener noreferrer" class="contact-card">
                     <div class="contact-icon">in</div>
                     <div class="contact-info">
                         <h4>LinkedIn</h4>
                         <p>Adithya Abhiram Chittimalla</p>
                     </div>
                 </a>
-                <a href="https://leetcode.com/u/aditya_abhiram_2805/" target="_blank" class="contact-card">
+                <a href="https://leetcode.com/u/aditya_abhiram_2805/" target="_blank" rel="noopener noreferrer" class="contact-card">
                     <div class="contact-icon">⚙</div>
                     <div class="contact-info">
                         <h4>LeetCode</h4>
@@ -801,23 +844,32 @@
             </div>
         </section>
 
-    </div>
+    </main>
 
     <footer>
         &copy; Adithya Abhiram Chittimalla.
     </footer>
 
     <script>
-        function toggleDrawer() {
+        function setDrawer(open) {
             const drawer = document.getElementById('mobileDrawer');
-            drawer.classList.toggle('open');
-            document.body.style.overflow = drawer.classList.contains('open') ? 'hidden' : '';
+            drawer.classList.toggle('open', open);
+            document.body.style.overflow = open ? 'hidden' : '';
+            document.getElementById('hamburger').setAttribute('aria-expanded', String(open));
+        }
+
+        function toggleDrawer() {
+            setDrawer(!document.getElementById('mobileDrawer').classList.contains('open'));
         }
 
         function closeDrawer() {
-            document.getElementById('mobileDrawer').classList.remove('open');
-            document.body.style.overflow = '';
+            setDrawer(false);
         }
+
+        // Close the drawer if the window is resized up to desktop width
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 860) closeDrawer();
+        });
 
         // Close drawer on outside click
         document.getElementById('mobileDrawer').addEventListener('click', function(e) {
